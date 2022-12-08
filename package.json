@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "pb:gen": "./scripts/gen.sh greet",
-    "greet:server": "node greet/server/index.js"
+    "greet:server": "node greet/server/index.js",
+    "greet:client": "node greet/client/index.js"
   },
   "keywords": [],
   "author": "",
