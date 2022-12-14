@@ -17,11 +17,24 @@ function doGreet(client) {
     })
 }
 
+function doGreetManyTimes(client) {
+    console.log('doGreetManyTimes was invoked');
+
+    const req = new GreetRequest()
+        .setFirstName('Dasha');
+    const call = client.greetManyTimes(req);
+
+    call.on('data', (res) => {
+        console.log(`GreetManyTImes: ${res.getResult()}`);
+    })
+}
+
 function main() {
     const credentials = grpc.ChannelCredentials.createInsecure();
     const client = new GreetServiceClient('localhost:50051', credentials);
 
-    doGreet(client);
+    doGreetManyTimes(client);
+    // doGreet(client);
     client.close();
 }
 
