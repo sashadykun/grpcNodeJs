@@ -23,3 +23,5 @@ var global = (function() {
 
 var sum_pb = require('./sum_pb.js');
 goog.object.extend(proto, sum_pb);
+var primes_pb = require('./primes_pb.js');
+goog.object.extend(proto, primes_pb);
