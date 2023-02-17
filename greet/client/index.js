@@ -46,13 +46,30 @@ function doLongGreet(client) {
     call.end();
 }
 
+function doGreetEveryone(client) {
+    console.log('doGreetEveryone was invoked');
+    const names = ['Sosa', 'Mosa', 'Testos'];
+    const call = client.greetEveryone();
+
+    call.on('data', (res) => {
+        console.log(`res: ${res.getResult()}`);
+    });
+
+    names.map((name) => {
+        return new GreetRequest().setFirstName(name);
+    }).forEach((req) => call.write(req));
+    call.end();
+
+}
+
 function main() {
     const credentials = grpc.ChannelCredentials.createInsecure();
     const client = new GreetServiceClient('localhost:50051', credentials);
 
     // doGreetManyTimes(client);
     // doGreet(client);
-    doLongGreet(client);
+    // doLongGreet(client);
+    doGreetEveryone(client);
     client.close();
 }
 
