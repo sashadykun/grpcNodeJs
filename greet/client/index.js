@@ -1,3 +1,4 @@
+const fs = require('fs');
 const grpc = require('@grpc/grpc-js');
 const {GreetServiceClient} = require('../proto/greet_grpc_pb');
 const {GreetRequest} = require('../proto/greet_pb');
@@ -63,7 +64,16 @@ function doGreetEveryone(client) {
 }
 
 function main() {
-    const credentials = grpc.ChannelCredentials.createInsecure();
+    const tls = true;
+    let credentials;
+    if (tls) {
+        const rootCert = fs.readFileSync('./ssl/ca.crt');
+
+        credentials = grpc.ChannelCredentials.createSsl(rootCert);
+    } else {
+        credentials = grpc.ChannelCredentials.createInsecure();
+    };
+
     const client = new GreetServiceClient('localhost:50051', credentials);
 
     // doGreetManyTimes(client);
