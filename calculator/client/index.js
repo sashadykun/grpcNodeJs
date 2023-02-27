@@ -4,6 +4,7 @@ const {SumRequest} = require('../proto/sum_pb');
 const {PrimesRequest} = require('../proto/primes_pb');
 const {AvgRequest} = require('../proto/avg_pb');
 const {MaxRequest} = require('../proto/max_pb');
+const {SqrtRequest} = require('../proto/sqrt_pb');
 
 function doSum(client) {
     console.log('doCalculation was invoked');
@@ -70,6 +71,22 @@ function doMax(client) {
 
 }
 
+function doSqrt(client, n) {
+    console.log('doSqrt was invoked');
+    const req = new SqrtRequest().setNumber(n);
+
+    client.sqrt(req, (err, res) => {
+        if (err) {
+            return console.log(err)
+        }
+
+        console.log(`Sqrt: ${res.getResult()}`)
+    })
+
+
+
+}
+
 
 function main() {
     const credentials = grpc.ChannelCredentials.createInsecure();
@@ -78,7 +95,9 @@ function main() {
     // doSum(client);
     // doPrimes(client);
     // doAvg(client);
-    doMax(client);
+    // doMax(client);
+    // doSqrt(client, 25);
+    doSqrt(client, -3);
     client.close();
 }
 
