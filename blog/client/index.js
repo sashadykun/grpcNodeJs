@@ -23,7 +23,7 @@ function createBlog(client) {
     })
 }
 
-function readingBlog(client, id) {
+function readBlog(client, id) {
     console.log('--readBlog was invoked--');
 
     return new Promise((resolve, reject) => {
@@ -37,6 +37,28 @@ function readingBlog(client, id) {
             console.log(`Blog was read: ${res}`);
             
         })
+    })
+}
+
+function updateBlog(client, id) {
+    console.log('--updateBlog was invoked');
+
+    return new Promise((resolve, reject) => {
+        const req = new Blog()
+            .setId(id)
+            .setAuthorId('Anthon')
+            .setTitle('First updated title')
+            .setContent('Content was updated and blog now can update it stuf');
+
+        client.updateBlog(req, (err, _) => {
+            if (err) {
+                reject();
+            }
+
+            console.log('Blog was updated!');
+            resolve();
+        })
+    
     })
 }
 
@@ -54,8 +76,8 @@ async function main() {
     const client = new BlogServiceClient('localhost:50051', credentials);
 
     const id = await createBlog(client);
-    await readingBlog(client, id);
-    
+    await readBlog(client, id);
+    await updateBlog(client, id);    
     client.close();
 }
 

@@ -1,4 +1,5 @@
 const grpc = require('@grpc/grpc-js');
+const { Empty } = require('google-protobuf/google/protobuf/empty_pb');
 const { ObjectId } = require('mongodb');
 const {Blog, BlogId} = require('../proto/blog_pb');
 
@@ -75,5 +76,18 @@ exports.readBlog = async (call, callback) => {
     await collection.findOne({_id: oid}).then((res) => {
         checkNotFound(res, callback);
         callback(null, documentToBlog(res));
+    }).catch((err) => internal(err, callback));
+}
+
+exports.updateBlog = async (call, callback) => {
+    const oid = checkOID(call.request.getId(), callback);
+
+    await collection.updateOne(
+        {_id: oid},
+        {$set: blogToDocument(call.request)},
+    ).then((res) => {
+        checkNotFound(res, callback);
+        checkNotAcknowledged(res, callback);
+        callback(null, new Empty());
     }).catch((err) => internal(err, callback));
 }
