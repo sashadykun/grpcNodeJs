@@ -84,8 +84,8 @@ var BlogServiceService = exports.BlogServiceService = {
     responseSerialize: serialize_google_protobuf_Empty,
     responseDeserialize: deserialize_google_protobuf_Empty,
   },
-  listBlog: {
-    path: '/blog.BlogService/ListBlog',
+  listBlogs: {
+    path: '/blog.BlogService/ListBlogs',
     requestStream: false,
     responseStream: true,
     requestType: google_protobuf_empty_pb.Empty,
